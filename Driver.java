@@ -28,18 +28,46 @@ public class Driver{
         height = Integer.parseInt(args[1]);
     }
 
-    Simulator test = new Simulator(width, height, popSize, filler);
-
     Scanner kb = new Scanner(System.in);
-    boolean run = true;
-    while(run){
-      String input = kb.next();
-      if(input.equals("stop")){
-        run = false;
+    int decision=0;
+    while(decision<=3){
+
+      System.out.print("\n1) run cycle\n2) complete simulation\n3) modify parameters\n4) quit\n\nSELECTION: ");
+      decision = kb.nextInt();
+
+      switch(decision){
+        case 1:
+          Simulator cycles = new Simulator(width, height, popSize, filler);
+          System.out.println("Type any key and enter to run new cycle. Type \"stop\" to quit iterating cycles");
+          boolean run = true;
+          while(run){
+            String input = kb.next();
+            if(input.equals("stop")){
+              run = false;
+            }
+            cycles.printCycle();
+          }
+          break;
+
+        case 2:
+          Simulator completelySimulated = new Simulator(width, height, popSize, filler);
+          completelySimulated.completeSimulation();
+          break;
+
+        case 3:
+          System.out.print("Print new command line arguments, split by \",\": ");
+          String input = kb.next();
+          String[] newArgs = input.split(",");
+          switch(newArgs.length){
+            case 4:
+              filler = newArgs[3];
+            case 3:
+              popSize = Integer.parseInt(newArgs[2]);
+            case 2:
+              width = Integer.parseInt(newArgs[0]);
+              height = Integer.parseInt(newArgs[1]);
+          }
       }
-      test.runCycle();
     }
-
-
   }
 }

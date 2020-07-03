@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Simulator{
 
   private final int width;
@@ -9,6 +11,9 @@ public class Simulator{
   private Person[] people;
 
   private int cycles = 0;
+
+  private int cases = 0;
+  private ArrayList<Integer> caseCount = new ArrayList<Integer>();
 
   public Simulator(int w, int h, int pS, String f){
     width = w;
@@ -24,8 +29,8 @@ public class Simulator{
     for(int x=0;x<popSize;x++){
       int randX = (int)(Math.random()*width);
       int randY = (int)(Math.random()*height);
-      boolean isSick = Math.random() < 0.1 ? true : false;
-
+      boolean isSick = Math.random() < 0.15 ? true : false;
+      if(isSick) cases++;
       people[x] = new Person(randX, randY, isSick);
     }
     fillPeople();
@@ -44,14 +49,29 @@ public class Simulator{
     this(20, 50, 20, "-");
   }
 
-
   public void runCycle(){
-    cycles++;
     for(int x=0;x<popSize;x++) movePerson(x);
     spreadCovid();
     fillTable(filler);
     fillPeople();
+    caseCount.add(cases);
+    cycles++;
+  }
+
+  public void printCycle(){
+    runCycle();
     printTable();
+  }
+
+  public void completeSimulation(){
+    if(cases==0){
+      System.out.println("No cases to run simulation");
+    }else{
+      while(cases<popSize) runCycle();
+      for(int x=0;x<caseCount.size();x++)
+        System.out.print(caseCount.get(x)+" ");
+      System.out.println("\nTotal cycles: " + cycles);
+    }
   }
 
   public void fillPeople(){
@@ -87,7 +107,8 @@ public class Simulator{
         for(int y=0;y<popSize;y++){
           if(people[x].isNextTo(people[y]) && !people[y].isSick()){
               people[y].setSick(true);
-              System.out.println("new COVID case!");
+              cases++;
+              //System.out.println("new COVID case!");
           }
         }
       }
@@ -95,7 +116,6 @@ public class Simulator{
   }
 
   public void printTable(){
-
     System.out.println("CYCLE: "+cycles);
     for(int x=0;x<table.length;x++){
       for(int y=0;y<table[x].length;y++){
