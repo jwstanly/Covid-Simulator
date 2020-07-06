@@ -2,17 +2,21 @@ public class Person{
 
   private int x, y;
   private boolean sick;
+  private boolean immune;
+  private int cyclesSick = 0;
 
   public Person(int x, int y){
     this.x = x;
     this.y = y;
     this.sick = false;
+    this.immune = false;
   }
 
   public Person(int x, int y, boolean sick){
     this.x = x;
     this.y = y;
     this.sick = sick;
+    this.immune = false;
   }
 
   public void setX(int x){
@@ -37,6 +41,22 @@ public class Person{
 
   public boolean isSick(){
     return sick;
+  }
+
+  public void setImmune(boolean immune){
+    this.immune = immune;
+  }
+
+  public boolean isImmune(){
+    return immune;
+  }
+
+  public void incrementCyclesSick(){
+    cyclesSick++;
+  }
+
+  public int getCyclesSick(){
+    return cyclesSick;
   }
 
   public boolean isNextTo(Person other){
@@ -70,7 +90,9 @@ public class Person{
 
   public String toString(){
     if(sick) return "1";
-    else return "0";
+    if(!sick && immune) return "2";
+    if(!sick) return "0";
+    else return "ERROR";
   }
 
 }

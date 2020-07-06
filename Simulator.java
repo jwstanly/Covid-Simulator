@@ -1,10 +1,13 @@
-import java.util.ArrayList;
+import java.util.*;
+import java.io.*;
 
 public class Simulator{
 
   private final int width;
   private final int height;
   private final int popSize;
+  private final double startingRate;
+  private final double immunityRate;
   private final String filler;
 
   private String[][] table;
@@ -15,10 +18,12 @@ public class Simulator{
   private int cases = 0;
   private ArrayList<Integer> caseCount = new ArrayList<Integer>();
 
-  public Simulator(int w, int h, int pS, String f){
+  public Simulator(int w, int h, int pS, double sR, double iR, String f){
     width = w;
     height = h;
     popSize = pS;
+    startingRate = sR;
+    immunityRate = iR;
     filler = f;
 
     table = new String[width][height];
@@ -29,7 +34,7 @@ public class Simulator{
     for(int x=0;x<popSize;x++){
       int randX = (int)(Math.random()*width);
       int randY = (int)(Math.random()*height);
-      boolean isSick = Math.random() < 0.15 ? true : false;
+      boolean isSick = Math.random() < startingRate ? true : false;
       if(isSick) cases++;
       people[x] = new Person(randX, randY, isSick);
     }
@@ -37,21 +42,29 @@ public class Simulator{
 
   }
 
+  public Simulator(int w, int h, int pS, String f){
+    this(w, h, pS, 0.03, 5, f);
+  }
+
   public Simulator(int w, int h, int pS){
-    this(w, h, pS, "-");
+    this(w, h, pS, 0.03, 5, "-");
   }
 
   public Simulator(int w, int h){
-    this(w, h, ((int)(0.02*w*h)), "-");
+    this(w, h, ((int)(0.02*w*h)), 0.03, 5, "-");
   }
 
   public Simulator(){
-    this(20, 50, 20, "-");
+    this(20, 50, 20, 0.03, 5, "-");
   }
 
   public void runCycle(){
-    for(int x=0;x<popSize;x++) movePerson(x);
+    for(int x=0;x<popSize;x++){
+      movePerson(x);
+      if(people[x].isSick()) people[x].incrementCyclesSick();
+    }
     spreadCovid();
+    beatCovid();
     fillTable(filler);
     fillPeople();
     caseCount.add(cases);
@@ -63,15 +76,21 @@ public class Simulator{
     printTable();
   }
 
-  public void completeSimulation(){
+  public int[] completeSimulation(){
     if(cases==0){
       System.out.println("No cases to run simulation");
     }else{
-      while(cases<popSize) runCycle();
+      while(/*cases<popSize && //*/ cases!=0) runCycle();
       for(int x=0;x<caseCount.size();x++)
         System.out.print(caseCount.get(x)+" ");
       System.out.println("\nTotal cycles: " + cycles);
     }
+    //conversion to array
+    int[] export = new int[caseCount.size()];
+    for(int x=0;x<export.length;x++){
+      export[x] = caseCount.get(x);
+    }
+    return export;
   }
 
   public void fillPeople(){
@@ -105,11 +124,23 @@ public class Simulator{
     for(int x=0;x<popSize;x++){
       if(people[x].isSick()){
         for(int y=0;y<popSize;y++){
-          if(people[x].isNextTo(people[y]) && !people[y].isSick()){
+          if(people[x].isNextTo(people[y]) && !people[y].isSick() && !people[y].isImmune()){
               people[y].setSick(true);
               cases++;
-              //System.out.println("new COVID case!");
           }
+        }
+      }
+    }
+  }
+
+  public void beatCovid(){
+    for(int x=0;x<popSize;x++){
+      if(people[x].isSick()){
+        double chanceOfBeatingCovid = Math.random() * 0.0025 * people[x].getCyclesSick();
+        if(chanceOfBeatingCovid > immunityRate){
+          people[x].setSick(false);
+          people[x].setImmune(true);
+          cases--;
         }
       }
     }
