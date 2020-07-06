@@ -22,7 +22,7 @@ To display a working simulation with examples, a ```Driver.java``` main class ha
 * **1) run cycle** - executes runCycle();
 * **2) complete simulation** - executes completeSimulation();
 * **3) exports simulations**- runs a given number of simulations and returns case count results in a csv file. This feature is great for Microsoft Excel analysis. 
-* **4) modify parameters** - enables the original command arguments to be changed. Noticeably, the delimiter is “,” not “ “ like traditional Java command arguments (this will be changed in the future, sorry).
+* **4) modify parameters** - enables the original command arguments to be changed. Noticeably, the delimiter is ```,``` not ``` ``` like traditional Java command arguments (this will be changed in the future, sorry).
 * **5) manual mode** - runs 4 then 3, allowing clients to pick exact parameters before exporting data to a csv. 
 * **6) quit**- safely exits the application. 
 
