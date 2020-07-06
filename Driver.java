@@ -6,7 +6,7 @@ public class Driver{
   public static void main(String args[]) throws IOException{
 
     //set to true for debugging features
-    boolean debugging = false;
+    boolean debugging = true;
 
     //STARTING CONDITIONS
     int width;

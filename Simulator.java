@@ -26,6 +26,17 @@ public class Simulator{
     immunityRate = iR;
     filler = f;
 
+    //exception handeling
+    if(width<0 || height<0)
+      throw new IllegalArgumentException("cannot create a grid with a negative size");
+    if(popSize<0)
+      throw new IllegalArgumentException("simulation must contain people");
+    if(startingRate<=0 || startingRate>1)
+      throw new IllegalArgumentException("starting rate must be in the domain (0,1]");
+    if(immunityRate<0)
+      throw new IllegalArgumentException("immunity rate cannot be below zero");
+
+
     table = new String[width][height];
     people = new Person[popSize];
 
