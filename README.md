@@ -28,4 +28,4 @@ To display a working simulation with examples, a ```Driver.java``` main class ha
 
 Since Driver runs in the terminal, Driver runs with command arguments. The command arguments are verbatim the Simulator construction parameters mentioned above. The Driver class supports partial input of command arguments as long as parameters are in order.  
 
-
+![Covid-19 Growth Graph](https://i.imgur.com/ILHAIMo.png)
