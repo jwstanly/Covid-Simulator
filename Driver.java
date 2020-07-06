@@ -5,6 +5,9 @@ public class Driver{
 
   public static void main(String args[]) throws IOException{
 
+    //set to true for debugging features
+    boolean debugging = false;
+
     //STARTING CONDITIONS
     int width;
     int height;
@@ -35,17 +38,26 @@ public class Driver{
         height = Integer.parseInt(args[1]);
     }
 
+    if(debugging)
+      System.out.println("PASSED ARGS: "+
+                        "\nwidth: "+width+
+                        "\nheight: "+height+
+                        "\npopSize: "+popSize+
+                        "\nstartingRate: "+startingRate+
+                        "\nimmunityRate: "+immunityRate+
+                        "\nfiller: \""+filler+"\"");//*/
+
     Scanner kb = new Scanner(System.in);
     int decision=0;
     while(decision<=5){
 
-      System.out.print("\n1) run cycle\n2) complete simulation\n3) export simulations\n4) modify parameters\n5) manual mode\n6)quit\n\nSELECTION: ");
+      System.out.print("\n1) run cycle\n2) complete simulation\n3) export simulations\n4) modify parameters\n5) manual mode\n6) quit\n\nSELECTION: ");
       decision = kb.nextInt();
 
       switch(decision){
         case 1:
-          Simulator cycles = new Simulator(width, height, popSize, filler);
-          System.out.println("Type any key and enter to run new cycle. Type \"stop\" to quit iterating cycles");
+          Simulator cycles = new Simulator(width, height, popSize, startingRate, immunityRate, filler);
+          System.out.println("Type any key and then press enter to run new cycle. Type \"stop\" to quit iterating cycles");
           boolean run = true;
           while(run){
             String input = kb.next();
@@ -57,7 +69,7 @@ public class Driver{
           break;
 
         case 2:
-          Simulator completelySimulated = new Simulator(width, height, popSize, filler);
+          Simulator completelySimulated = new Simulator(width, height, popSize, startingRate, immunityRate, filler);
           completelySimulated.completeSimulation();
           break;
 
@@ -68,7 +80,7 @@ public class Driver{
           int[][] exports = new int[rows][];
 
           for(int x=0;x<rows;x++){
-            Simulator temp = new Simulator(width, height, popSize, filler);
+            Simulator temp = new Simulator(width, height, popSize, startingRate, immunityRate, filler);
             int[] collumn = temp.completeSimulation();
             exports[x] = collumn;
           }
@@ -113,6 +125,7 @@ public class Driver{
               width = Integer.parseInt(newArgs[0]);
               height = Integer.parseInt(newArgs[1]);
           }
+          break;
 
         //this is case 4 then case 3 combined... sorry for repetitive code
         case 5:

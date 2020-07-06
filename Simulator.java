@@ -42,6 +42,7 @@ public class Simulator{
 
   }
 
+  //soon to be deprecated constructor (old param order)
   public Simulator(int w, int h, int pS, String f){
     this(w, h, pS, 0.03, 5, f);
   }
@@ -80,7 +81,7 @@ public class Simulator{
     if(cases==0){
       System.out.println("No cases to run simulation");
     }else{
-      while(/*cases<popSize && //*/ cases!=0) runCycle();
+      while(/*cases<popSize && //*/ cases!=0) runCycle(); //uncomment for testing max population infection
       for(int x=0;x<caseCount.size();x++)
         System.out.print(caseCount.get(x)+" ");
       System.out.println("\nTotal cycles: " + cycles);
@@ -90,6 +91,13 @@ public class Simulator{
     for(int x=0;x<export.length;x++){
       export[x] = caseCount.get(x);
     }
+
+    //infection score (area under the curve)
+    int infectionScore=0;
+    for(int cases : export)
+    infectionScore +=  cases;
+    System.out.println("Infection Score: "+infectionScore);
+
     return export;
   }
 
