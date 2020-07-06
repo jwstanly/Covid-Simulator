@@ -26,7 +26,7 @@ To display a working simulation with examples, a ```Driver.java``` main class ha
 * **5) manual mode** - Runs option 4 then option 3, allowing clients to define unique parameters before exporting data to a csv. 
 * **6) quit** - Safely exits the application. 
 
-Since Driver runs in the terminal, Driver runs with command arguments. The command arguments are verbatim the Simulator construction parameters mentioned above. The Driver class supports partial input of command arguments as long as parameters are in order.  
+Since Driver runs in the terminal, Driver runs with command line arguments. The command line arguments are verbatim the Simulator construction parameters mentioned above. The Driver class supports partial input of command line arguments as long as parameters are in order.  
 
 
 ![Covid-19 Growth Graph](https://i.imgur.com/ILHAIMo.png)
