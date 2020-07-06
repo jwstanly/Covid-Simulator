@@ -21,11 +21,12 @@ To display a working simulation with examples, a ```Driver.java``` main class ha
 
 * **1) run cycle** - Executes runCycle()
 * **2) complete simulation** - Executes completeSimulation()
-* **3) exports simulations** - Runs a given number of simulations and exports the number of people infected during each cycle to a csv file. This feature is great for Microsoft Excel analysis. 
+* **3) exports simulations** - Runs a given number of simulations and exports the number of people infected during each cycle to a csv file. This feature is great for Microsoft Excel analysis, as shown below.
 * **4) modify parameters** - Enables the original command arguments to be changed. Noticeably, the delimiter is ```,``` not ``` ```  like traditional Java command arguments (this will be changed in the future, sorry).
 * **5) manual mode** - Runs option 4 then option 3, allowing clients to define unique parameters before exporting data to a csv. 
 * **6) quit** - Safely exits the application. 
 
 Since Driver runs in the terminal, Driver runs with command arguments. The command arguments are verbatim the Simulator construction parameters mentioned above. The Driver class supports partial input of command arguments as long as parameters are in order.  
+
 
 ![Covid-19 Growth Graph](https://i.imgur.com/ILHAIMo.png)
